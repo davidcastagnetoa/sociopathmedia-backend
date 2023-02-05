@@ -42,6 +42,7 @@ export const visits = async (req, res) => {
   }
 };
 
+
 /* UPDATE */
 export const addRemoveFriend = async (req, res) => {
   try {

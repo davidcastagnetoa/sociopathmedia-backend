@@ -22,7 +22,7 @@ export const users = [
     friends: [],
     location: "San Fran, CA",
     occupation: "Software Engineer",
-    visits: 14561,
+    visits: 0,
     impressions: 888822,
     createdAt: 1115211422,
     updatedAt: 1115211422,

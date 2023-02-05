@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-// Register User
+/* REGISTER USER */
 export const register = async (req, res) => {
   try {
     const {
@@ -29,9 +29,6 @@ export const register = async (req, res) => {
       friends,
       location,
       occupation,
-      // Its generates a random Number, must investigate the real function to count visits
-      // viewedProfile: Math.floor(Math.random() * 10000),
-
       // Set initial view count to 0
       visits: 0,
       impressions: Math.floor(Math.random() * 10000),
@@ -57,13 +54,12 @@ export const register = async (req, res) => {
 //   }
 // };
 
-// LOGGIN IN
+/* LOGGING IN */
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email: email });
-    if (!user) return res.status(400).json({ msg: "user does not exist. " });
+    if (!user) return res.status(400).json({ msg: "User does not exist. " });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. " });

@@ -1,4 +1,3 @@
-// This here lies the User DB schemma
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
@@ -36,7 +35,7 @@ const UserSchema = new mongoose.Schema(
     },
     location: String,
     occupation: String,
-    visits: { type: Number, default: 0 },
+    visits: Number,
     impressions: Number,
   },
   { timestamps: true }

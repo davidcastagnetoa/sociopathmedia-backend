@@ -18,7 +18,7 @@ import User from "./models/User.js";
 import Post from "./models/Post.js";
 import { users, posts } from "./data/index.js";
 
-// Configuration
+/* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
@@ -29,20 +29,19 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-
 app.use(cors());
+
 // solo permite solicitudes desde la aplicación web
-
-// app.use(cors({
-//   origin: 'https://sociopathmedia.netlify.app',
-//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
-// }));
-
+// app.use(
+//   cors({
+//     origin: ["https://sociopathmedia.netlify.app/"],
+//   })
+// );
 
 //Set the directory where we keep or assets (in real app it's to store in actual store file directry or in S3)
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
-// FILE STORAGE
+/* FILE STORAGE */
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/assets");
@@ -53,16 +52,16 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// ROUTES WITH FILES
+/* ROUTES WITH FILES */
 app.post("/auth/register", upload.single("picture"), register);
 app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
-// ROUTES
+/* ROUTES */
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 
-// MONGOOSE SETUP
+/* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 // mongoose.set("strictQuery", false);
 mongoose
@@ -74,7 +73,7 @@ mongoose
     app.listen(PORT, () => console.log(`Server connected to Port: ${PORT}`));
 
     // Inject data to MongoDB server
-    // ADD DATA ONE TIME
+    /* ADD DATA ONE TIME */
     // User.insertMany(users);
     // Post.insertMany(posts);
   })
