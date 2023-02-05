@@ -30,13 +30,13 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-// app.use(cors());
+app.use(cors());
 // solo permite solicitudes desde la aplicación web
 
-app.use(cors({
-  origin: 'https://sociopathmedia.netlify.app',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
-}));
+// app.use(cors({
+//   origin: 'https://sociopathmedia.netlify.app',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+// }));
 
 
 //Set the directory where we keep or assets (in real app it's to store in actual store file directry or in S3)
