@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { OAuth2Client } from "google-auth-library";
 
 
 /* REGISTER USER */
@@ -118,45 +117,7 @@ export const login = async (req, res) => {
 // CREATE USER IN MONGODB IF USER DOESN'T EXIST
 
 /* LOGGING WITH GOOGLE */
-export const googleLogin = async (req, res) => {
-  try {
-    const { tokenId } = req.body;
-    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-    const response = await client.verifyIdToken({
-      idToken: tokenId,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    const { email, given_name, family_name, picture } = response.payload;
-    let user = await User.findOne({ email });
 
-    if (!user) {
-      // Create a new user if one does not exist
-      const salt = await bcrypt.genSalt();
-      const password = await bcrypt.hash(email + process.env.JWT_SECRET, salt);
-      user = new User({
-        email,
-        firstName: given_name,
-        lastName: family_name,
-        password,
-        picturePath: picture,
-        friends: [],
-        location: "",
-        occupation: "",
-        visits: 0,
-        impressions: Math.floor(Math.random() * 10000),
-      });
-
-      await user.save();
-    }
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    delete user.password;
-    res.status(200).json({ token, user });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: err.message });
-  }
-};
 
 // Increment view count
 // export const incrementViewCount = async (req, res) => {
